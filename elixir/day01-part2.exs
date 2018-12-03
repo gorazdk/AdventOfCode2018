@@ -1,0 +1,12 @@
+File.stream!("./../inputs/day01.txt")
+|> Stream.map( &String.replace_suffix(&1, "\n", "") )
+|> Stream.map( &String.to_integer(&1))
+|> Stream.cycle()
+|> Stream.scan(0, &(&1 + &2))
+|> Stream.scan({MapSet.new(), nil}, &({MapSet.put(elem(&2, 0), elem(&2, 1)), &1} ))
+|> Stream.drop_while(&(not MapSet.member?(elem(&1, 0), elem(&1, 1))))
+|> Stream.map( &(elem(&1, 1)))
+|> Enum.take(1)
+|> Enum.map(&(Integer.to_string(&1)))
+|> IO.puts()
+
